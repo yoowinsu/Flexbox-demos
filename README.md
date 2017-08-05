@@ -52,16 +52,16 @@
 
 ### 三点
 [https://yoowinsu.github.io/flex-demos/dice/dice-three.html](https://yoowinsu.github.io/flex-demos/dice/dice-three.html)
-![]()
+![](https://i.loli.net/2017/08/05/5985c216ad7a5.jpg)
 
 ### 四点
 [https://yoowinsu.github.io/flex-demos/dice/dice-four.html](https://yoowinsu.github.io/flex-demos/dice/dice-four.html)
-![]()
+![](https://i.loli.net/2017/08/05/5985c216c2377.jpg)
 
 ### 五点
 [https://yoowinsu.github.io/flex-demos/dice/dice-five.html](https://yoowinsu.github.io/flex-demos/dice/dice-five.html)
-![]()
+![](https://i.loli.net/2017/08/05/5985c216c3312.jpg)
 
 ### 六点
 [https://yoowinsu.github.io/flex-demos/dice/dice-six.html](https://yoowinsu.github.io/flex-demos/dice/dice-six.html)
-![]()
+![](https://i.loli.net/2017/08/05/5985c216c478d.jpg)
