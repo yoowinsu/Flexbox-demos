@@ -6,13 +6,20 @@
 	<style>
 		.wrap ul{
 			display: flex;
+			flex-direction: column;
 			justify-content: space-between;
+			list-style: none;
+			padding-left: 50%;
 		}
 		.wrap ul>li{
 			width: 100px;
 			height: 100px;
 			background-color: pink;
 			text-align: center;
+			align-items: center;
+		}
+		.wrap ul>li:nth-child(2n){
+			align-self: flex-end;
 		}
 	</style>
 </head>
