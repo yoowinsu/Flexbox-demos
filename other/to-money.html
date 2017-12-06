@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>宝盈富足</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<meta name="format-detection" content="telephone=no">
+	<meta http-equiv="Expires" content="-1">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta name="description" content="" />
+	<meta name="Keywords" content="" />
+	<link rel="stylesheet" type="text/css" href="css/amazeui.min.css">
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+	<link rel="stylesheet" type="text/css" href="font/iconfont.css">
+	<link rel="stylesheet" type="text/css" href="css/Jpublic.css">
+	<script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+	<script type="text/javascript" src="js/amazeui.min.js"></script>
+	<script type="text/javascript" src='js/public.js'></script>
+	<style>
+		.moneyInp{width: 80%;}
+        .user-id-info{
+            display: none;
+        }
+        .user-id-info>p{
+            height: 20px;
+            position: relative;
+            top: -10px;
+        }
+        .user-id-info .user-id-name,.user-id-info .user-id-phone{
+            font-size: 12px;
+            color: #aaa;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .user-id-info .user-id-name span,.user-id-info .user-id-phone span{
+            font-size: 12px;
+            color: #999;
+        }
+	</style>
+</head>
+<body>
+<div class="out-show" id="out-show">
+    <div class="out-box">
+        <h4 class="out-box_h4"><span>请输入支付密码</span><img class="off" src="images/off_btn.png" alt="关闭"></h4>
+        <label class="out-box_label" for="out-inpass">
+            <ul class="out-box_ul" style="margin-top: 60px;">
+                <li class="out-box_li"></li>
+                <li class="out-box_li"></li>
+                <li class="out-box_li"></li>
+                <li class="out-box_li"></li>
+                <li class="out-box_li"></li>
+                <li class="out-box_li out-box_li_lst"></li>
+            </ul>
+            <span class="out-box_inpass_bot"></span>
+        </label>
+        <input class="out-inpass" id="out-inpass" type="number">
+        <a href="editPaypwd.html?type=1" class="yy_1">忘记密码?</a>
+        <!-- <div class="out_btnBox">
+            <button class="out_btn out_btn1" type="button">取消</button>
+            <button class="out_btn out_btn2" type="button">确定</button>
+        </div> -->
+    </div>
+</div>
+<div class="out-show" id="setPwd" style="display: none;">
+    <div class="setPwdbox" style="height:400px;">
+        <h6 class="Tit">设置支付密码</h6>
+        <p class="Tips">您还没设置支付密码，设置支付密码后才能进行支付，请进行设置。</p>
+        <ul>
+            <li>
+                <i class="iconfont icon-shouji"></i>
+                <p class="phone" id="ggphone"></p>
+            </li>
+            <li>
+                <i class="iconfont icon-xiaoxi"></i>
+                <input style="width: 115px;" id="code" type="text" name="" placeholder="请输入验证码">
+                <button type="button" class="yzm">获取验证码</button>
+            </li>
+            <li>
+                <i class="iconfont icon-suo"></i>
+                <input type="password" name="" id="pwd1" placeholder="设置6位数字支付密码">
+            </li>
+            <li>
+                <i class="iconfont icon-suo"></i>
+                <input type="password" name="" id="pwd2" placeholder="确认您的支付密码">
+            </li>
+        </ul>
+        <div class="btnBox1">
+            <button type="button" class="cancle">取消</button>
+            <button type="button" class="confirm">确定</button>
+        </div>
+    </div>
+</div>
+
+<header class="headrBor fixheader">
+	<i onclick="javascript:history.go(-1)" class="iconfont icon-shangyibu"></i>
+	金券转账
+    <a href="./to-money-history.html" class="to-money-history">转账记录</a>
+</header>
+<div class="height123"></div>
+<div class="toMoneybox">
+	<span class="RMb">&yen;</span>
+	<input class="moneyInp" type="text" placeholder="请输入转账金额" />
+</div>
+<ul class="toMoneyul">
+	<li>
+		<span>可用金券</span>
+		<input id="gold_money" type="text" placeholder="" disabled="" />
+	</li>
+	<li>
+		<span>转账给</span>
+		<input id="account" type="text" placeholder="请填写转账用户的ID号" />
+        <div class="user-id-info">
+            <p class="user-id-name"><span>姓名：</span><span class="name">yoooo</span></p>
+            <p class="user-id-phone"><span>电话：</span><span class="phone">464654613213</span></p>
+        </div>
+	</li>
+</ul>
+<p class="p123">转账规则：</p>
+<p class="p123">1.业务员转账只能转给所属业务中心。</p>
+<p class="p123">2.业务中心转账只能转给下属业务员。</p>
+<button type="button" class="toMoneybtn">确定</button>
+
+<script>
+    $("#account").on("blur",function () {
+        var referrer = $("#account").val()
+        if(referrer == ''){
+            return false
+        }
+        $.ajax({
+            url: URL + '/layout/Profile/getUserInfo',
+            type:'POST', 
+            xhrFields: {
+                withCredentials: true
+                },
+                crossDomain: true,
+            data:{
+                account: referrer
+            },
+            success:function(res) {
+                if(res.status == 1){
+                    $(".user-id-info").css("display","block")
+                    $(".user-id-name span.name").text(res.data.name)
+                    $(".user-id-phone span.phone").text(res.data.phone)
+                }
+            },
+            error:function(){
+                alert(res.message);
+            }
+        });
+    })
+	// all_quan num
+	$.ajax({
+	 	url: URL + 'layout/Profile/myAccount',
+		type:'POST', 
+		xhrFields: {
+			withCredentials: true
+			},
+			crossDomain: true,
+	    data:{},
+	    success:function(res) {
+			if (res.status==1) {
+				// console.log(res);
+				if(res.data.gold_money == ''){
+					res.data.gold_money = '0.00';
+				}
+				$("#gold_money").attr('placeholder',res.data.gold_money);
+			}
+		},
+		error:function(){
+			console.log(res.message);
+		}
+	});
+	$(".toMoneybtn").on('click',function(){
+		var money = $(".moneyInp").val();
+		var account = $("#account").val();
+		if(money == ''){
+			alert("请输入转账金额");
+			return
+		}else if(money <= 0){
+			alert("转账金额应大于0");
+			return
+		}else if(money%100 != 0){
+			alert("转账金额应为100的整数倍");
+			return
+		}
+		if(account == ''){
+			alert("请填写转账用户的ID号");
+			return
+		}
+		setPwd();
+		pay_Oreder(money,account);
+	});
+    function setPwd() {
+    	$.ajax({
+            url: URL + 'layout/Member/isHasPayPassword',
+            type:'post', 
+            xhrFields: {
+                withCredentials: true
+            },
+            crossDomain: true,
+            data:{},
+            success:function (res) {
+                if (res.status==1) {
+                    $("#out-show").fadeIn(400);
+                }else{
+                    $("#setPwd").fadeIn('400');
+                }
+            }
+        });
+    
+    	$.ajax({
+            type:'GET',
+            url:URL+'layout/Profile/getUserInfo',
+            dataType: 'json',
+            xhrFields: {
+                withCredentials: true
+            },
+            crossDomain: true,
+            success:function(res){
+                if (res.status ==1) {
+                    $("#ggphone").html(res.data.phone);
+                    var ggphone=res.data.phone;
+                    var s =ggphone.substring(3,7);
+                    var _phone=ggphone.replace(s,"****");
+                    $('#ggphone').html(_phone);
+                    var accname=res.data.account;
+                $('.yzm').on("touchstart",function () {
+                    $.ajax({
+                        url: URL + 'layout/Auth/getCode',
+                        type:'GET',
+                        xhrFields: {
+                        withCredentials: true
+                        },
+                        crossDomain: true,
+                        data:{
+                            account:accname,
+                            phone:ggphone,
+                            type:3, 
+                        },
+                        success:function(res) {
+                            if (res.status==1) {
+                                alert(res.message);
+                                var count = 60;
+                                var countdown = setInterval(CountDown, 1000);
+                                function CountDown() {
+                                    $(".yzm").css('pointer-events', 'none');;
+                                    $(".yzm").html("重新发送("+count +")");
+                                    if (count == 0) {
+                                        $(".yzm").css('pointer-events', 'auto');
+                                         $(".yzm").html("发送验证码");
+                                        clearInterval(countdown);
+                                    };
+                                    count--;
+                                }
+    
+                            }else{
+                                alert(res.message);
+                            }
+                        },
+                    });
+                });
+            $(".confirm").click(function() {
+                var code = $("#code").val();
+                var pwd1 = $("#pwd1").val() 
+                var nname = /^\d{6}$/; 
+                if(!nname.test(pwd1)) { 
+                    alert('请输入六位数字密码'); 
+                    return false;   
+                }
+                if(code == "") {
+                    alert("验证码不能为空");
+                    return false
+                }
+                if(pwd1.length!=6){ 
+                    alert("请设置六位新的支付密码");   
+                    return false
+                }
+                var pwd2 = $("#pwd2").val();
+                if(pwd2 != pwd1){
+                    alert("两次密码输入不一致");
+                    return false
+                }
+                    $.ajax({
+                        url: URL + 'layout/Auth/findPayPassword',  // 请求修改支付密码URL地址
+                        type: 'GET',
+                        data: {
+                            account:accname,
+                            phone:ggphone,
+                            password: pwd1,
+                            re_password: pwd2,
+                            code: code
+                        },
+                        xhrFields: {
+                            withCredentials: true
+                        },
+                        crossDomain: true,
+                        success : function(req){
+                            if(req.status == 1){
+                                alert("密码设置成功");
+                                $(".cancle").trigger("click");
+                            }else{
+                                alert(req.message);
+                            }
+                        },
+                    });
+                    
+                }); 
+    
+    
+    
+                }
+            }
+        })
+    }
+    $(".out_btnBox .out_btn1").click(function() {
+        $("#out-show").fadeOut('400');
+    });
+    $(".cancle").on("click",function () {
+        $("#setPwd").fadeOut(400)
+    })
+    $(".off").on("click",function () {
+       $("#out-show").fadeOut('400');
+    })
+    function pay_Oreder(money,account) {
+        var money = money;
+        var account = account;
+        $('.out-btn_ok, .icon-guanbi').on('touchend', function () {
+            setTimeout(function () {
+                $('#out-show').css('display', 'none');
+            }, 50);
+        });
+    
+        $('.out-btn_ok').on('touchend', function () {
+            setTimeout(function () {
+                window.location.href = './payment-Success.html';
+            }, 50);
+        });
+        var passBotShow,
+        initWidth = parseFloat($('.out-box_inpass_bot').css('left')),
+        keyNum = 0;
+        $('#out-inpass').on('focus', function () {
+        var passBot = $('.out-box_inpass_bot');//下划线
+        passBotShow = setInterval(function () {//下滑线滑动
+            if (passBot.attr('class').match('out-box_inpass_botin')) passBot.removeClass('out-box_inpass_botin');
+            else passBot.addClass('out-box_inpass_botin');
+        }, 500);
+        }).on('blur', function () {
+            var passBot = $('.out-box_inpass_bot');//下划线
+            clearInterval(passBotShow);
+            passBot.removeClass('out-box_inpass_botin');
+        }).keydown(function (e) {
+            clearInterval(passBotShow);
+            $('.out-box_inpass_bot').removeClass('out-box_inpass_botin');
+            e = e || window.event;
+            if (e.keyCode != 8) {
+                if ($('#out-inpass').val().length >= 6 || (e.keyCode >= 58 && e.keyCode <= 47)) {
+                    e.preventDefault();
+                    $('#out-inpass').val($('#out-inpass').val().substring(0,6));
+                    return false;
+                }
+            }
+        }).keyup(function(e) {
+            var pass = $('#out-inpass').val();
+            if (keyNum >= 6 && e.keyCode != 8) {
+                e.preventDefault();
+                $('#out-inpass').val($('#out-inpass').val().substring(0,6));
+                return false;
+            }
+            if (e.keyCode >= 58 && e.keyCode <= 47) {
+                e.preventDefault();
+                return false;
+            }
+            if ($('.out-inpass').val().length == 0 && e.keyCode == 8) {
+                $('.out-box_li').eq(0).text('');
+                $('.out-box_inpass_bot').css('left', initWidth);
+                e.preventDefault();
+                return false;
+            }
+            if (e.keyCode == 8) {
+                keyNum = 0;
+                $('#out-inpass').val('');
+                pass = '';
+            }
+            else keyNum++;
+            if (pass.length == 6) {
+                clearInterval(passBotShow);
+                var password = $("#out-inpass").val();
+                $.ajax({
+    		        url: URL + 'layout/Profile/transfer',
+    		        type:'POST',
+    		        xhrFields: {
+    		        withCredentials: true
+    		        },
+    		        crossDomain: true,
+    		        data: {
+    		        	money: money,
+    		        	account: account,
+    		        	password:password,
+    		        },
+    		        success:function(req) {
+    		            if (req.status==1) {
+    		            	alert("转账成功");
+    		            	window.location.href="myBill.html";
+    		            }else{
+    		            	alert(req.message);
+    		            	window.location.reload();
+    		            }
+    		        },
+    		    });
+                $('.out-box_inpass_bot').removeClass('out-box_inpass_botin');
+            }
+            var arr = pass.split('');
+            var list = $('.out-box_li');
+            // 明文密码
+            for (var i = 0; i < list.length; i++) {
+                list.eq(i).text('');
+            }
+            for (var i = 0 ; i < arr.length; i++) {
+                list.eq(i).text('·');
+            }
+        });
+    
+        $(".off").click(function() {
+            $("#out-show").fadeOut('400');
+            $('#out-inpass').val('')
+    
+            var list = $('.out-box_li');
+            // 明文密码
+            for (var i = 0; i < list.length; i++) {
+                list.eq(i).text('');
+            }
+        });
+        $(".out_btnBox .out_btn1").click(function() {
+            $("#out-show").fadeOut('400');
+        });
+        $(".cancle").on("click",function () {
+            $("#setPwd").fadeOut(400)
+        })
+    }
+</script>
+</body>
+</html>
+
