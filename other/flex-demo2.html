@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>flex demos</title>
+	<style>
+		.wrap{
+			display: flex;
+			justify-content: space-between;
+			border: 1px solid #eee;
+		}
+		div.left,.right>div{
+			height: 50px;
+			width: 50px;
+			background-color: pink;
+			margin: 6px;
+		}
+		.wrap .right{
+			display: flex;
+			justify-content: flex-end;
+		}
+	</style>
+</head>
+<body>
+	<p>一个居左，两个居右</p>
+	<div class="wrap">
+		<div class="left"></div>
+		<div class="right">
+			<div class="right1"></div>
+			<div class="right2"></div>
+		</div>
+	</div>
+</body>
+</html>
